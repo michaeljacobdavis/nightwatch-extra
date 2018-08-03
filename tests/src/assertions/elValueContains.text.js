@@ -155,6 +155,16 @@ describe("ElValueContains", () => {
 
       expect(called).to.equal(true);
     });
+
+    it("passes when expected and actual are both empty strings (Edge)", () => {
+      elValueContains = new ElValueContains(clientMock);
+      let called = false;
+
+      elValueContains.pass = () => { called = true; };
+      elValueContains.assert("", "");
+
+      expect(called).to.equal(true);
+    });
   });
   
 });
