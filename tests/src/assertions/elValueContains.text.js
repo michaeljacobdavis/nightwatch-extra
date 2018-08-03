@@ -138,4 +138,22 @@ describe("ElValueContains", () => {
       elValueContains.command("[name='q']", "invalid_fake_textual_message");
     });
   });
+
+  describe("assert", () => {
+    it("passes when expected and actual are empty strings", () => {
+      elValueContains = new ElValueContains(clientMock);
+      let called = false;
+
+      elValueContains.pass = () => { called = true; };
+      elValueContains.assert("", "");
+
+      expect(called).to.equal(true);
+    });
+
+    it("handles actual being null (Edge)", () => {
+      elValueContains = new ElValueContains(clientMock);
+
+      expect(() => elValueContains.assert(null, "expected")).to.not.throw();
+    });
+  });
 });
