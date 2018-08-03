@@ -1,4 +1,4 @@
-"use strict";
+
 
 import chai from "chai";
 import _ from "lodash";
@@ -31,10 +31,10 @@ const immutableClientMock = {
   },
   locateStrategy: "css",
   api: {
-    executeAsync: function (fn, args, callback) {
+    executeAsync (fn, args, callback) {
       callback({
-        state: 'success',
-        sessionId: '60c692d2-7b53-4d43-a340-8d6133af13a8',
+        state: "success",
+        sessionId: "60c692d2-7b53-4d43-a340-8d6133af13a8",
         hCode: 1895546026,
         value:
         {
@@ -43,17 +43,17 @@ const immutableClientMock = {
           isVisible: true,
           isVisibleStrict: true,
           seens: 3,
-          value: { value: 'fake_textual_message', sel: '[name=\'q\']' },
+          value: { value: "fake_textual_message", sel: "[name='q']" },
           selectorVisibleLength: 1
         },
-        class: 'org.openqa.selenium.remote.Response',
+        class: "org.openqa.selenium.remote.Response",
         status: 0
       });
     },
-    execute: function (fn, args, callback) {
+    execute (fn, args, callback) {
       callback({
-        state: 'success',
-        sessionId: '60c692d2-7b53-4d43-a340-8d6133af13a8',
+        state: "success",
+        sessionId: "60c692d2-7b53-4d43-a340-8d6133af13a8",
         hCode: 1895546026,
         value:
         {
@@ -62,15 +62,15 @@ const immutableClientMock = {
           isVisible: true,
           isVisibleStrict: true,
           seens: 3,
-          value: { value: 'fake_textual_message', sel: '[name=\'q\']' },
+          value: { value: "fake_textual_message", sel: "[name='q']" },
           selectorVisibleLength: 1
         },
-        class: 'org.openqa.selenium.remote.Response',
+        class: "org.openqa.selenium.remote.Response",
         status: 0
       });
     }
   },
-  assertion: function (result, actual, expected, message, abortonfail) { }
+  assertion (result, actual, expected, message, abortonfail) { }
 };
 
 
@@ -136,6 +136,24 @@ describe("ElValueContains", () => {
 
       elValueContains = new ElValueContains(clientMock);
       elValueContains.command("[name='q']", "invalid_fake_textual_message");
+    });
+  });
+
+  describe("assert", () => {
+    it("passes when expected and actual are empty strings", () => {
+      elValueContains = new ElValueContains(clientMock);
+      let called = false;
+
+      elValueContains.pass = () => { called = true; };
+      elValueContains.assert("", "");
+
+      expect(called).to.equal(true);
+    });
+
+    it("handles actual being null (Edge)", () => {
+      elValueContains = new ElValueContains(clientMock);
+
+      expect(() => elValueContains.assert(null, "expected")).to.not.throw();
     });
   });
 });
