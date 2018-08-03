@@ -140,20 +140,21 @@ describe("ElValueContains", () => {
   });
 
   describe("assert", () => {
-    it("passes when expected and actual are empty strings", () => {
-      elValueContains = new ElValueContains(clientMock);
-      let called = false;
-
-      elValueContains.pass = () => { called = true; };
-      elValueContains.assert("", "");
-
-      expect(called).to.equal(true);
-    });
-
     it("handles actual being null (Edge)", () => {
       elValueContains = new ElValueContains(clientMock);
 
       expect(() => elValueContains.assert(null, "expected")).to.not.throw();
     });
+
+    it("passes when expected is an empty string but actual is null (Edge)", () => {
+      elValueContains = new ElValueContains(clientMock);
+      let called = false;
+
+      elValueContains.pass = () => { called = true; };
+      elValueContains.assert(null, "");
+
+      expect(called).to.equal(true);
+    });
   });
+  
 });
